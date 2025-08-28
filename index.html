@@ -1890,15 +1890,24 @@ body.dark-mode .h2h-match-item {
     </div>
 
     <!-- Aggiungi questa domanda nella sezione FAQ, dopo le domande esistenti -->
- <div class="faq-item">
-      <button class="faq-question click-feedback">
-        Come funzionano i pronostici?
-        <span class="faq-icon">+</span>
-      </button>
-      <div class="faq-answer">
-        <p>  Il pronostico è basato sui voti della community. Clicca su un giocatore per votare!</p>
-      </div>
+<div class="faq-item">
+  <button class="faq-question click-feedback">
+    Come funzionano i pronostici?
+    <span class="faq-icon">+</span>
+  </button>
+  <div class="faq-answer">
+    <p>I pronostici calcolano la probabilità di vittoria basandosi su:</p>
+    
+    <div style="margin-left:20px;">
+      • <strong>Classifica</strong> (65% peso)<br>
+      • <strong>Scontri diretti</strong> (25%)<br>
+      • <strong>Ultimi 3 match</strong> (7%)<br>
+      • <strong>Attività recente</strong> (3%)
     </div>
+
+    <p>Le probabilità restano sempre tra 15% e 85%. Provali nella sezione dettagli tornei!</p>
+  </div>
+</div>
   </div>
 </section>
 
@@ -2120,42 +2129,9 @@ body.dark-mode .h2h-match-item {
 </footer>
 
 
-<script type="module">
+<script>
   // ********** DATI GLOBALI **********
-// Salva un voto nel database
-// Nuova versione corretta per il browser
-async function saveVote(matchId, player1, player2, votedFor) {
-  const response = await fetch('/.netlify/functions/save-vote', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ matchId, player1, player2, votedFor })
-  });
-  return await response.json();
-}
 
-async function getVoteStats(matchId) {
-  try {
-    const response = await fetch(`/.netlify/functions/get-votes?matchId=${matchId}`);
-    
-    if (!response.ok) {
-      // Handle HTTP errors
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-    
-    const data = await response.json();
-    
-    // Verify the data structure is what you expect
-    if (!Array.isArray(data)) {
-      throw new Error('Invalid data format received from server');
-    }
-    
-    return data;
-  } catch (error) {
-    console.error("Error fetching vote stats:", error);
-    // Return a default empty array to prevent downstream errors
-    return [];
-  }
-}
   // ********** SUONO CLICK **********
   
 function playFeedback(event) {
@@ -2216,6 +2192,16 @@ function playFeedback(event) {
   
     // Dati notizie (esempio con più notizie)
   const newsData = [
+    {
+        title: "HEAT CUP primo QUARTO DI FINALE: Paolo vs Enrico",
+        date: "27 Agosto 2025",
+        content: 'Paolo perde contro Enrico ai quarti per 3-6, 3-6 senza dichiarazioni! Paolo avrà comunque una seconda possibilità contro il vincente nella sfida Usud vs Michele!'
+      },
+      {
+        title: "HEAT CUP primo OTTAVO DI FINALE: Paolo vs Usud",
+        date: "26 Agosto 2025",
+        content: 'Paolo vince contro Usud la prima sfida della fase a tabellone per 7(7)-6(5), 6-3. Dopo questa sfida Usud dichiara che il fisico non ha retto e ha fatto errori imperdonabili. Paolo invece si dichiara pronto ad affrontare Enrico!'
+      },
      {
       title: "HEAT CUP: Risultati fase a gironi disponibili",
       date: "10 Agosto 2025",
@@ -2271,6 +2257,40 @@ function playFeedback(event) {
   let newsShowingAll = false;
   const newsContainer = document.getElementById('newsContainer');
   const showAllNewsBtn = document.getElementById('showAllNewsBtn');
+
+  function renderNews() {
+    newsContainer.innerHTML = '';
+    let newsToShow = newsShowingAll ? newsData : newsData.slice(0, 3);
+    
+    newsToShow.forEach(news => {
+      const card = document.createElement('div');
+      card.className = 'news-card';
+      
+      const title = document.createElement('h3');
+      title.className = 'news-title';
+      title.textContent = news.title;
+      
+      const date = document.createElement('div');
+      date.className = 'news-date';
+      date.textContent = news.date;
+      
+      const content = document.createElement('p');
+      content.textContent = news.content;
+      
+      card.appendChild(title);
+      card.appendChild(date);
+      card.appendChild(content);
+      
+      newsContainer.appendChild(card);
+    });
+    
+    // Mostra il pulsante solo se ci sono più di 3 notizie
+    if (!newsShowingAll && newsData.length > 3) {
+      showAllNewsBtn.style.display = 'block';
+    } else {
+      showAllNewsBtn.style.display = 'none';
+    }
+  }
 
   showAllNewsBtn.addEventListener('click', () => {
     newsShowingAll = true;
@@ -2682,25 +2702,67 @@ function playFeedback(event) {
 	  ],
          
 		 phaseTabellone: [
-		  { 
-			round: 'Ottavi', 
-			matches: [
-			  {
-				date: "00/08/2025", // Sostituisci con la data corretta
-				player1: 'Usud',
-				player2: 'Paolo',
-				winner: null, // Vincitore non ancora deciso
-				score: '', // Punteggio vuoto
-				sets: [
-				  { player1: null, player2: null } // Set non ancora giocati
-				],
-				totalGames: { player1: null, player2: null } // Totale giochi vuoto
-			  },
-			 
-			]
-		  }
-		]
-		},
+		    {
+                round: 'Ottavi',
+                matches: [
+                  {
+                    date: "26/08/2025", // Sostituisci con la data corretta
+                    player1: 'Usud',
+                    player2: 'Paolo',
+                    winner: 'Paolo', // Vincitore non ancora deciso
+                    score: '7(7)-6(5), 6-3', // Punteggio vuoto
+                    sets: [
+                      { player1: 0, player2: 2 } // Set non ancora giocati
+                    ],
+                    totalGames: { player1: 6 + 3, player2: 7 + 6 } // Totale giochi vuoto
+                  }/*
+                  {
+                    date: "10/09/2025", // Sostituisci con la data corretta
+                    player1: 'Usud',
+                    player2: 'Michele',
+                    winner: null,
+                    score: '',
+                    sets: [
+                      { player1: null, player2: null } // Set non ancora giocati
+                    ],
+                    totalGames: { player1: null, player2: null } // Totale giochi vuoto
+                  }*/
+                ]
+              },
+              {
+                round: 'Quarti',
+                matches: [
+                  {
+                    date: "27/08/2025",
+                    player1: 'Paolo',
+                    player2: 'Enrico',
+                    winner: 'Enrico',
+                    score: '3-6, 3-6',
+                    sets: [
+                      { player1: 0, player2: 2 }
+                    ],
+                    totalGames: { player1: 3 + 3, player2: 6 + 6 }
+                  }
+                ]
+              },
+              {
+                round: 'Semifinali',
+                matches: [
+                  {
+                    date: "10/09/2025",
+                    player1: 'Enrico',
+                    player2: 'Gioxter',
+                    winner: null,
+                    score: '',
+                    sets: [
+                      { player1: null, player2: null } // Set non ancora giocati
+                    ],
+                    totalGames: { player1: null, player2: null } // Totale giochi vuoto
+                  }
+                ]
+              }
+            ]
+          },
         {
           id: 'orangeTournament',
           name: 'ORANGE TOURNAMENT',
@@ -4249,56 +4311,54 @@ detailsBtn.addEventListener('click', () => {
 });
   
   // Sostituisci il codice esistente con questo:
-// Sostituisci il codice esistente con questo:
-async function setupPredictionButtons(matchDiv, m) {
+function setupPredictionButtons(matchDiv, m) {
     const predictionBtns = matchDiv.querySelectorAll('.prediction-btn');
-    const matchId = `${currentTournament.id}_${m.player1}_${m.player2}_${m.date.replace(/\//g, '-')}`;
-    
-    // Carica le statistiche iniziali
-    updatePredictionUI(matchDiv, matchId, m.player1, m.player2);
     
     predictionBtns.forEach(btn => {
-        btn.addEventListener('click', async function() {
-            const votedFor = this.dataset.choice;
+        // Rimuovi eventuali listener precedenti
+        btn.replaceWith(btn.cloneNode(true));
+        
+        // Reimposta lo stato
+        btn.disabled = false;
+        btn.classList.remove('selected');
+        
+        // Aggiungi nuovo listener
+        btn.addEventListener('click', function() {
+            const predictionDiv = this.closest('.match-prediction');
+            const resultsDiv = predictionDiv.querySelector('.prediction-results-single');
             
-            // Salva il voto nel database
-            const success = await saveVote(matchId, m.player1, m.player2, votedFor);
+            // Disabilita tutti i pulsanti
+            predictionDiv.querySelectorAll('.prediction-btn').forEach(b => {
+                b.disabled = true;
+                b.classList.remove('selected');
+            });
             
-            if (success) {
-                // Aggiorna l'UI con le nuove statistiche
-                await updatePredictionUI(matchDiv, matchId, m.player1, m.player2);
-                
-                // Disabilita i pulsanti dopo il voto
-                predictionBtns.forEach(b => b.disabled = true);
-                this.classList.add('selected');
-            } else {
-                alert("Si è verificato un errore nel salvataggio del voto. Riprova più tardi.");
-            }
+            // Evidenzia il selezionato
+            this.classList.add('selected');
+            
+            // Mostra risultati
+            resultsDiv.style.display = 'block';
+            
+            const leftFill = resultsDiv.querySelector('.prediction-fill-left');
+            const rightFill = resultsDiv.querySelector('.prediction-fill-right');
+            
+            // Reset animazione
+            leftFill.style.width = '0%';
+            rightFill.style.width = '0%';
+            leftFill.textContent = '';
+            rightFill.textContent = '';
+            
+            // Calcola probabilità
+            const player1Prob = calculateWinProbability(m.player1, m.player2, currentTournament.id);
+            const player1Percent = Math.round(player1Prob * 100);
+            const player2Percent = 100 - player1Percent;
+            
+            // Animazione fluida
+            animatePredictionBars(leftFill, rightFill, player1Percent, player2Percent);
         });
     });
 }
 
-async function updatePredictionUI(matchDiv, matchId, player1, player2) {
-    const resultsDiv = matchDiv.querySelector('.prediction-results-single');
-    const leftFill = resultsDiv.querySelector('.prediction-fill-left');
-    const rightFill = resultsDiv.querySelector('.prediction-fill-right');
-    
-    // Ottieni le statistiche aggiornate
-    const stats = await getVoteStats(matchId);
-    
-    let player1Percent = 50;
-    let player2Percent = 50;
-    
-    if (stats && stats.length > 0) {
-        stats.forEach(stat => {
-            if (stat.voted_for === player1) player1Percent = stat.percentage;
-            if (stat.voted_for === player2) player2Percent = stat.percentage;
-        });
-    }
-    
-    // Animazione delle barre
-    animatePredictionBars(leftFill, rightFill, player1Percent, player2Percent);
-}
 function animatePredictionBars(leftFill, rightFill, player1Percent, player2Percent) {
     let start = null;
     const duration = 1000;
@@ -4320,6 +4380,16 @@ function animatePredictionBars(leftFill, rightFill, player1Percent, player2Perce
     }
     
     window.requestAnimationFrame(step);
+}
+
+function triggerShineEffect(leftFill, rightFill) {
+    leftFill.classList.add('active-shine');
+    rightFill.classList.add('active-shine');
+    
+    setTimeout(() => {
+        leftFill.classList.remove('active-shine');
+        rightFill.classList.remove('active-shine');
+    }, 700);
 }
 
 function triggerShineEffect(leftFill, rightFill) {
@@ -4357,37 +4427,38 @@ function triggerShineEffect(leftFill, rightFill) {
   renderNews();
   renderGallery();
 
-async function calculateWinProbability(matchId, player1, player2) {
-  const voteStats = await getVoteStats(matchId);
-if (!voteStats || voteStats.error) {
-  // Use default probabilities if votes can't be loaded
-  return 0.5; // 50-50 chance
-}
-  
-  // Calcola le percentuali
-  let player1Votes = 0;
-  let player2Votes = 0;
-  
-  voteStats.forEach(stat => {
-    if (stat.voted_for === player1) {
-      player1Votes = stat.percentage;
-    } else if (stat.voted_for === player2) {
-      player2Votes = stat.percentage;
-    }
-  });
-  
-  // Normalizza i risultati (assicurati che la somma sia 100)
-  const total = player1Votes + player2Votes;
-  if (total > 0) {
-    player1Votes = (player1Votes / total) * 100;
-    player2Votes = (player2Votes / total) * 100;
-  } else {
-    player1Votes = 50;
-    player2Votes = 50;
-  }
-  
-  // Converti in valore tra 0 e 1
-  return player1Votes / 100;
+function calculateWinProbability(player1, player2, tournamentId) {
+    // 1. Probabilità base (50-50)
+    let player1Prob = 0.5;
+    
+    // 2. Ottieni i dati dell'edizione corrente
+    const currentEdition = editionsData['2025'];
+    if (!currentEdition) return player1Prob;
+    
+    // 3. Fattore Posizione (65% di peso)
+    const positionFactor = calculatePositionFactor(player1, player2);
+    player1Prob += positionFactor * 0.65;
+    
+    // 4. Scontri diretti (25% di peso)
+    const headToHeadFactor = calculateHeadToHeadFactor(player1, player2);
+    player1Prob += headToHeadFactor * 0.25;
+    
+    // 5. Ultimi 3 match (7% di peso)
+    const recentFormFactor = calculateRecentFormFactor(player1, player2);
+    player1Prob += recentFormFactor * 0.07;
+    
+    // 6. Attività recente (3% di peso)
+    const activityFactor = calculateActivityFactor(player1, player2);
+    player1Prob += activityFactor * 0.03;
+    
+    // 7. Bonus torneo specifico
+    const tournamentFactor = calculateTournamentFactor(player1, player2, tournamentId);
+    player1Prob += tournamentFactor;
+    
+    // 8. Limiti più restrittivi (15-85%)
+    player1Prob = Math.max(0.15, Math.min(0.85, player1Prob));
+    
+    return player1Prob;
 }
 
 // Nuova funzione basata sulle posizioni
