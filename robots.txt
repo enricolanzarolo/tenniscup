@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://tenniscup.org/sitemap.xml
