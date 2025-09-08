@@ -2193,6 +2193,16 @@ function playFeedback(event) {
     // Dati notizie (esempio con più notizie)
   const newsData = [
   {
+        title: "HEAT CUP SEMIFINALE: Enrico batte Gioxter 2-6, 6-2, 6-2",
+        date: "8 settembre 2025",
+        content: 'Prima semifinale della Heat Cup tra Gioxter e Enrico. Enrico vince una partita importantissima e Gioxter dichiara che si rifarà. La rivalità tra i due si è ufficialmente riaccesa con questa vittoria! ',
+      },
+  {
+        title: "HEAT CUP secondo QUARTO DI FINALE: Usud batte Paolo a tavolino!",
+        date: "6 settembre 2025",
+        content: 'Con grande dispiacere Paolo abbandona il torneo e decide di dare ad Usud la possibilità di scontrarsi per la vittoria finale con un grande gesto di cuore. La partita era sul 6-4, 3-6, 3-1 prima del ritiro. Usud dichiara: Nessuno voleva che finisse così e a malincuore io giocherò anche per Paolo.',
+      },
+  {
         title: "HEAT CUP secondo OTTAVO DI FINALE: Usud batte Michele 6-2,6-2",
         date: "4 settembre 2025",
         content: 'Usud vince il quarto di finale ed elimina Michele! Michele dichiara: Partita dopo partita sto  migliorando, non sono ancora pronto per competere per questo torneo, ma di questo passo posso competere per un quarto posto allo snow slam. Faccio i complimenti al mio avversario che anche se non ha giocato come può é stato superiore, nel heat cup 2026 ci sarà scritto il mio nome!',
@@ -2785,15 +2795,37 @@ function playFeedback(event) {
                       { player1: 0, player2: 2 }
                     ],
                     totalGames: { player1: 3 + 3, player2: 6 + 6 }
+                  },
+				  {
+                    date: "06/09/2025",
+                    player1: 'Usud',
+                    player2: 'Paolo',
+                    winner: 'Usud',
+                    score: '6-4, 3-6, 3-1(rit)',
+                    sets: [
+                      { player1: 2, player2: 1 }
+                    ],
+                    totalGames: { player1: 6 + 3 + 3, player2: 4 + 6 + 1}
                   }
                 ]
               },
               {
                 round: 'Semifinali',
                 matches: [
-                  {
-                    date: "10/09/2025",
+				  {
+                    date: "08/09/2025",
                     player1: 'Enrico',
+                    player2: 'Gioxter',
+                    winner: 'Enrico',
+                    score: '2-6, 6-2, 6-2',
+                    sets: [
+                      { player1: 2, player2: 1 }
+                    ],
+                    totalGames: { player1: 2 + 6 + 6, player2: 6 + 2 + 2}
+                  },
+                  {
+                    date: "09/09/2025",
+                    player1: 'Usud',
                     player2: 'Gioxter',
                     winner: null,
                     score: '',
@@ -3104,6 +3136,7 @@ document.addEventListener('click', (e) => {
    const galleryMedia = [
     {type: 'video', src: 'video/0.mp4', alt: 'Tennis Cup - Trailer del torneo', thumb: 'img/gallery/0.jpg'},
     {type: 'image', src: 'img/gallery/1.jpg', alt: 'Fasi conclusive THE SINNER 2025'},
+	{type: 'image', src: 'img/gallery/9.jpg', alt: 'Heat Cup, la strada è ancora lunga'},
 	{type: 'image', src: 'img/gallery/7.jpg', alt: 'Heat Cup, non è solo un gioco'},
 	{type: 'image', src: 'img/gallery/8.jpg', alt: 'Le affermazioni di Gioxter'},
     {type: 'image', src: 'img/gallery/2.jpg', alt: 'Usuds dream'},
