@@ -2193,6 +2193,11 @@ function playFeedback(event) {
     // Dati notizie (esempio con più notizie)
   const newsData = [
   {
+        title: "HEAT CUP SEMIFINALE: Gioxter batte Usud 6-2, 6-4",
+        date: "9 settembre 2025",
+        content: 'Seconda semifinale giocata e sarà ancora una volta Enrico contro Gioxter in finale! Usud dichiara che in questa partita ha sbagliato molto e la sua fame di vittoria dopo questa sconfitta sembra essere stata placata! Noi speriamo tutti che si riprenda, ma nel mentre attendiamo questa finale dello slam HEAT CUP! ',
+      },
+  {
         title: "HEAT CUP SEMIFINALE: Enrico batte Gioxter 2-6, 6-2, 6-2",
         date: "8 settembre 2025",
         content: 'Prima semifinale della Heat Cup tra Gioxter e Enrico. Enrico vince una partita importantissima e Gioxter dichiara che si rifarà. La rivalità tra i due si è ufficialmente riaccesa con questa vittoria! ',
@@ -2827,15 +2832,31 @@ function playFeedback(event) {
                     date: "09/09/2025",
                     player1: 'Usud',
                     player2: 'Gioxter',
-                    winner: null,
-                    score: '',
+                    winner: 'Gioxter',
+                    score: '2-6, 4-6',
                     sets: [
-                      { player1: null, player2: null } // Set non ancora giocati
+                      { player1: 0, player2: 2 } // Set non ancora giocati
                     ],
-                    totalGames: { player1: null, player2: null } // Totale giochi vuoto
+                    totalGames: { player1: 2+4, player2: 6+6 } // Totale giochi vuoto
                   }
                 ]
+              },
+			  { 
+            round: 'Finale', 
+            matches: [
+              {
+                date: "20/09/2025",
+                player1: 'Enrico',
+                player2: 'Gioxter',
+                winner: null,
+                score: '',
+                sets: [
+                  { player1: null, player2: null}
+                ],
+                totalGames: { player1: null, player2: null}
               }
+            ]
+          }
             ]
           },
         {
@@ -3134,8 +3155,9 @@ document.addEventListener('click', (e) => {
   // ********** GALLERIA **********
   
    const galleryMedia = [
-    {type: 'video', src: 'video/0.mp4', alt: 'Tennis Cup - Trailer del torneo', thumb: 'img/gallery/0.jpg'},
+    {type: 'video', src: 'video/0.mp4', alt: 'Tennis Cup - Trailer del circuito', thumb: 'img/gallery/0.jpg'},
     {type: 'image', src: 'img/gallery/1.jpg', alt: 'Fasi conclusive THE SINNER 2025'},
+	{type: 'image', src: 'img/gallery/10.jpg', alt: 'Heat Cup, la FINALE'},
 	{type: 'image', src: 'img/gallery/9.jpg', alt: 'Heat Cup, la strada è ancora lunga'},
 	{type: 'image', src: 'img/gallery/7.jpg', alt: 'Heat Cup, non è solo un gioco'},
 	{type: 'image', src: 'img/gallery/8.jpg', alt: 'Le affermazioni di Gioxter'},
